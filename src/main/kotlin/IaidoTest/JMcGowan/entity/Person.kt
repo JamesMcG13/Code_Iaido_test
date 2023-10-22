@@ -6,7 +6,7 @@ import java.util.*
 // Basic Entity setup for Person as found here https://www.youtube.com/watch?v=AioHZDaL4Jw
 @Entity
 data class Person(
-        @Id @GeneratedValue val id: Long,
+        @Id @GeneratedValue val id: Long? = null,
         val name: String,
         val surname: String,
         val email: String,

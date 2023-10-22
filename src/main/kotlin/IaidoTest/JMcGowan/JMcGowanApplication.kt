@@ -4,7 +4,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class JMcGowanApplication
+class JMcGowanApplication{
+	fun helloWorld(): String = "Hello World!"
+}
 
 fun main(args: Array<String>) {
 	runApplication<JMcGowanApplication>(*args)

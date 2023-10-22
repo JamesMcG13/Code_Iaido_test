@@ -11,6 +11,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher
+import javax.management.Query.and
 
 
 // source for information: https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/in-memory.html
@@ -24,10 +25,9 @@ class MultiHttpSecurityConfig(private val accessDeniedHandler: CustomAccessDenie
     private val customAccessDeniedHandler = CustomAccessDeniedHandler()
     @Bean
     fun userDetailsService(): UserDetailsService {
-        val users: User.UserBuilder = User.withDefaultPasswordEncoder()
         val manager = InMemoryUserDetailsManager()
-        manager.createUser(users.username("guest").password("password").roles("GUEST").build())
-        manager.createUser(users.username("admin").password("password").roles("GUEST","ADMIN").build())
+        manager.createUser(User.withUsername("guest").password("{noop}password").roles("GUEST").build())
+        manager.createUser(User.withUsername("admin").password("{noop}password").roles("GUEST","ADMIN").build())
         return manager
     }
     // Above I initialise two users, one admin and a guest
@@ -53,7 +53,6 @@ class MultiHttpSecurityConfig(private val accessDeniedHandler: CustomAccessDenie
     @Bean
     fun apiFilterChain(http: HttpSecurity): SecurityFilterChain {
         http {
-            antMatcher("/people/**")
             authorizeRequests {
                 authorize(anyRequest, hasRole("ADMIN"))
             }

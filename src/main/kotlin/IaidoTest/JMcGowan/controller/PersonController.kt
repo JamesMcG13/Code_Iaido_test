@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/people")
+@PreAuthorize("hasAnyRole('ADMIN')")
 class PersonController(private val service: PersonService) {
     @PostMapping
     fun create(@RequestBody person: Person): Person = service.save(person)
